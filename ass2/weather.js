@@ -26,12 +26,11 @@ app.post('/', function(req, res){
             const pressure = weatherData.main.pressure;
             const windSpeed = weatherData.wind.speed;
             const countryCode = weatherData.sys.country;
-            // Add any other data you need here
 
-            // Construct the response with the new data
+
             res.write(`<h1>Temperature in ${city} is ${temp} degrees Celsius.</h1>`);
             res.write(`<p>The weather is currently ${weatherDescription}.</p>`);
-            // Display additional data
+
             res.write(`<p>Feels like: ${feelsLike}°C</p>`);
             res.write(`<p>Humidity: ${humidity}%</p>`);
             res.write(`<p>Pressure: ${pressure} hPa</p>`);
