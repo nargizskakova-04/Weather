@@ -13,6 +13,7 @@ app.post('/', function(req, res){
     const apiKey = "2ffe3ae70da0dcdf0d88442954523dcd"; 
     const unit = "metric";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${apiKey}`;
+    
 
     https.get(url, function(weatherResponse){
         let weatherData = '';
@@ -36,22 +37,47 @@ app.post('/', function(req, res){
             const uvOptions = {
                 headers: {'x-access-token': uvApiKey}
             };
-            https.get(uvUrl, uvOptions, function(uvResponse){
-                let uvData = '';
-                uvResponse.on('data', function(chunk){
-                    uvData += chunk;
-                });
-
-                uvResponse.on('end', function(){
-                    const uvJson = JSON.parse(uvData);
-                    const uvIndex = uvJson.result.uv;
-
-                    const query = `?city=${city}&temp=${temp}&desc=${weatherDescription}&icon=${icon}&feelsLike=${feelsLike}&humidity=${humidity}&pressure=${pressure}&windSpeed=${windSpeed}&countryCode=${countryCode}&lat=${latitude}&lon=${longitude}&uvIndex=${uvIndex}`;
-                    res.redirect('/weather' + query);
-                });
-            }).on('error', function(e){
-                console.error(`Ошибка при запросе к OpenUV: ${e.message}`);
+            const moonPhaseApiKey = "f07785bf3bbc4edd93f5dbc0d94d979f"; // Ваш ключ API от ipgeolocation.io
+            const moonPhaseUrl = `https://api.ipgeolocation.io/astronomy?apiKey=${moonPhaseApiKey}&lat=${latitude}&long=${longitude}`;
+            console.log("Moon Phase URL:", moonPhaseUrl);
+            https.get(moonPhaseUrl, function(moonResponse){
+            let moonData = '';
+            moonResponse.on('data', function(chunk){
+                moonData += chunk;
             });
+
+            moonResponse.on('end', function(){
+                const moonJson = JSON.parse(moonData);
+                const moonrise = moonJson.moonrise;
+                const moonset = moonJson.moonset;
+                const sunrise = moonJson.sunrise;
+                const sunset = moonJson.sunset;
+                console.log("Moon Rise:", moonrise);
+
+                const uvUrl = `https://api.openuv.io/api/v1/uv?lat=${latitude}&lng=${longitude}`;
+                const uvOptions = {
+                    headers: {'x-access-token': uvApiKey}
+                };
+                https.get(uvUrl, uvOptions, function(uvResponse){
+                    let uvData = '';
+                    uvResponse.on('data', function(chunk){
+                        uvData += chunk;
+                    });
+
+                    uvResponse.on('end', function(){
+                        const uvJson = JSON.parse(uvData);
+                        const uvIndex = uvJson.result.uv;
+
+                        const query = `?city=${encodeURIComponent(city)}&temp=${temp}&desc=${encodeURIComponent(weatherDescription)}&icon=${icon}&feelsLike=${feelsLike}&humidity=${humidity}&pressure=${pressure}&windSpeed=${windSpeed}&countryCode=${countryCode}&lat=${latitude}&lon=${longitude}&uvIndex=${uvIndex}&moonrise=${encodeURIComponent(moonrise)}&moonset=${encodeURIComponent(moonset)}&sunrise=${encodeURIComponent(sunrise)}&sunset=${encodeURIComponent(sunset)}`;
+                        res.redirect('/weather' + query);
+                    });
+                }).on('error', function(e){
+                    console.error(`Ошибка при запросе к OpenUV: ${e.message}`);
+                });
+            });
+        }).on('error', function(e){
+            console.error(`Ошибка при запросе к API фазы луны: ${e.message}`);
+        });
         });
     });
 });

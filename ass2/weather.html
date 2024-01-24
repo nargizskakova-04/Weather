@@ -46,9 +46,12 @@
             <p>Wind Speed: ${params.windSpeed} m/s</p>
             <p>Country Code: ${params.countryCode}</p>
             <p>UV Index: ${params.uvIndex}</p> <!-- Добавлен UV индекс -->
+            <p>Moonrise: ${params.moonrise}</p> <!-- Добавлена информация о восходе луны -->
+            <p>Moonset: ${params.moonset}</p> <!-- Добавлена информация о закате луны -->
+            <p>Sunrise: ${params.sunrise}</p> <!-- Добавлена информация о восходе солнца -->
+            <p>Sunset: ${params.sunset}</p> <!-- Добавлена информация о закате солнца -->
             <img src="https://openweathermap.org/img/wn/${params.icon}@2x.png" alt="weather icon">
         `;
-
         initMap(params.lat, params.lon);
     </script>
 </body>
