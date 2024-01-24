@@ -4,7 +4,7 @@
     <title>Weather Details</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-            #weather-info {
+        #weather-info {
             margin-bottom: 20px;
         }
     </style>
@@ -45,9 +45,9 @@
             <p>Pressure: ${params.pressure} hPa</p>
             <p>Wind Speed: ${params.windSpeed} m/s</p>
             <p>Country Code: ${params.countryCode}</p>
+            <p>UV Index: ${params.uvIndex}</p> <!-- Добавлен UV индекс -->
             <img src="https://openweathermap.org/img/wn/${params.icon}@2x.png" alt="weather icon">
         `;
-
 
         initMap(params.lat, params.lon);
     </script>
