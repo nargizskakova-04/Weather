@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-
-        form {
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Weather App</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f7f7f7; /* Легкий фон для улучшения читаемости */
+            }
+    
+            .weather-form {
+                margin-top: 50px;
+            }
+    
+            .form-control {
+                margin-bottom: 10px;
+            }
+    
+            .weather-container {
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    
 <body>
-    <h1>Check the Weather</h1>
-    <form action="/" method="post">
-        <input type="text" name="cityName" placeholder="Enter a city" required>
-        <button type="submit">Get Weather</button>
-    </form>
+    <div class="container text-center">
+        <h1 class="my-4">Check the Weather</h1>
+        <div class="weather-form">
+            <form action="/" method="post" class="form-inline justify-content-center">
+                <input type="text" name="cityName" class="form-control" placeholder="Enter a city" required>
+                <button type="submit" class="btn btn-primary ml-2">Get Weather</button>
+            </form>
+        </div>
+    </div>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
